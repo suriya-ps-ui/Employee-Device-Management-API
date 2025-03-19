@@ -17,7 +17,7 @@ namespace Services{
             return laptop;
         }
         public async Task UpdateLaptopAsync(string empId,string lapHostName,Laptop laptop){
-            var lap=assetManagementContext.Laptops.FirstOrDefault(l=>l.empId==empId && l.lapHostName==lapHostName);
+            var lap=await assetManagementContext.Laptops.FirstOrDefaultAsync(l=>l.empId==empId && l.lapHostName==lapHostName);
             if(lap==null){
                 throw new Exception("Laptop not found.");
             }
@@ -30,7 +30,7 @@ namespace Services{
             await assetManagementContext.SaveChangesAsync();
         }
         public async Task DeleteLaptopAsync(string empId, string lapHostName){
-            var laptop=assetManagementContext.Laptops.FirstOrDefault(l=>l.empId==empId && l.lapHostName==lapHostName);
+            var laptop=await assetManagementContext.Laptops.FirstOrDefaultAsync(l=>l.empId==empId && l.lapHostName==lapHostName);
             if(laptop==null){
                 throw new Exception("Laptop not found.");
             }
@@ -56,7 +56,7 @@ namespace Services{
             await assetManagementContext.SaveChangesAsync();
         }
         public async Task DeleteKeyboardAsync(string keyId){
-            var keyboard=assetManagementContext.Keyboards.FirstOrDefault(k=>k.keyId==keyId);
+            var keyboard=await assetManagementContext.Keyboards.FirstOrDefaultAsync(k=>k.keyId==keyId);
             if(keyboard==null){
                 throw new Exception("Keyboard not found.");
             }
@@ -72,7 +72,7 @@ namespace Services{
             return mouse;
         }
         public async Task UpdateMouseAsync(string mouseId, Mouse mouse){
-            var mou=assetManagementContext.Mouses.FirstOrDefault(m=>m.mouseId==mouseId);
+            var mou=await assetManagementContext.Mouses.FirstOrDefaultAsync(m=>m.mouseId==mouseId);
             if(mou==null){
                 throw new Exception("Keyboard not found.");
             }
@@ -82,7 +82,7 @@ namespace Services{
             await assetManagementContext.SaveChangesAsync();
         }
         public async Task DeleteMouseAsync(string mouseId){
-            var mouse=assetManagementContext.Mouses.FirstOrDefault(m=>m.mouseId==mouseId);
+            var mouse=await assetManagementContext.Mouses.FirstOrDefaultAsync(m=>m.mouseId==mouseId);
             if(mouse==null){
                 throw new Exception("Keyboard not found.");
             }

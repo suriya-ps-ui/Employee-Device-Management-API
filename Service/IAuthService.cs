@@ -1,6 +1,6 @@
 namespace Services{
     public interface IAuthService{
         Task<string> LoginAsync(string username,string password);
-        Task RegisterUserAsync(string username,string pass,string Role,string Id=null);
+        Task RegisterUserAsync(string username,string pass,string Role,string? Id=null);
     }
 }

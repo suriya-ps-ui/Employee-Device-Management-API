@@ -1,8 +1,8 @@
 namespace Model{
     public class Employee{
-        public string empId{get;set;}
-        public string empName{get;set;}
-        public string department{get;set;}
+        public required string empId{get;set;}
+        public required string empName{get;set;}
+        public required string department{get;set;}
         //Relationships
         public virtual ICollection<Laptop> Laptops {get;set;}=new List<Laptop>();
         public virtual ICollection<Keyboard> Keyboards{get;set;}=new List<Keyboard>();

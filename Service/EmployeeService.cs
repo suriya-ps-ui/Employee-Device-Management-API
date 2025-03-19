@@ -12,7 +12,11 @@ namespace Services{
             return await assetManagementContext.Employees.Include(e=>e.Laptops).Include(e=>e.Mouses).Include(e=>e.Keyboards).ToListAsync();
         }
         public async Task<Employee> GetEmployeeByIDAsync(string id){
-            return await assetManagementContext.Employees.Include(e=>e.Laptops).Include(e=>e.Mouses).Include(e=>e.Keyboards).FirstOrDefaultAsync(e=>e.empId==id);
+            var employee=await assetManagementContext.Employees.Include(e=>e.Laptops).Include(e=>e.Mouses).Include(e=>e.Keyboards).FirstOrDefaultAsync(e=>e.empId==id);
+            if(employee==null){
+                throw new Exception("No employee with that ID.");
+            }
+            return employee;
         }
         public async Task<Employee> CreateEmployeeAsync(Employee employee){
             assetManagementContext.Employees.Add(employee);

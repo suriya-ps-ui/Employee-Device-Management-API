@@ -1,12 +1,12 @@
 namespace Model{
     public class Laptop{
-        public string lapHostName{get;set;}
-        public string empId{get;set;}
-        public string lapModel{get;set;}
-        public string processor{get;set;}
-        public string storage{get;set;}
-        public string ram{get;set;}
+        public required string lapHostName{get;set;}
+        public required string empId{get;set;}
+        public required string lapModel{get;set;}
+        public required string processor{get;set;}
+        public required string storage{get;set;}
+        public required string ram{get;set;}
         public DateOnly assignedOn{get;set;}
-        public string status{get;set;}
+        public required string status{get;set;}
     }
 }

@@ -15,7 +15,7 @@ namespace Services{
             this.configuration=configuration;
         }
         public async Task<string> LoginAsync(string username,string password){
-            var user=assetManagementContext.Users.FirstOrDefault(u=>u.userName==username && u.password==password);
+            var user=await assetManagementContext.Users.FirstOrDefaultAsync(u=>u.userName==username && u.password==password);
             if (user==null){
                 throw new Exception("Invalid credentials");
             }
@@ -24,7 +24,7 @@ namespace Services{
                 new Claim(ClaimTypes.Role,user.role),
                 new Claim("EmpId",user.empId??"")
             };
-            var key=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+            var key=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]??throw new Exception("Key is null")));
             var creds=new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
             var token=new JwtSecurityToken(
                 claims:claims,
@@ -32,7 +32,7 @@ namespace Services{
                 signingCredentials:creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public async Task RegisterUserAsync(string username,string pass,string Role,string Id=null){
+        public async Task RegisterUserAsync(string username,string pass,string Role,string? Id=null){
             if(await assetManagementContext.Users.AnyAsync(u=>u.userName==username)){
                 throw new Exception("Username already exists");
             }
