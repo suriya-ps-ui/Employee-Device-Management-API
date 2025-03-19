@@ -55,7 +55,7 @@ if (app.Environment.IsDevelopment()){
     app.UseSwagger();
     app.UseSwaggerUI(c =>{
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Asset Management API V1");
-        c.RoutePrefix = string.Empty; // Swagger UI at root (e.g., http://localhost:5000/)
+        c.RoutePrefix = string.Empty;
     });
 }
 app.UseAuthentication();
