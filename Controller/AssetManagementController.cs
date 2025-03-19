@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Services;
 using Model;
 using Microsoft.AspNetCore.Authorization;
-using Model.Models;
 
 namespace Controllers{
     [ApiController]
