@@ -6,9 +6,9 @@ using Services;
 namespace Controllers{
     [ApiController]
     [Route("/[controller]")]
-    public class AuthControllers:ControllerBase{
+    public class AuthController:ControllerBase{
         IAuthService authService;
-        public AuthControllers(IAuthService authService){
+        public AuthController(IAuthService authService){
             this.authService=authService;
         }
 
