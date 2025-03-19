@@ -13,7 +13,7 @@ namespace Data{
             modelBuilder.Entity<Employee>(Employee=>{
                 Employee.HasKey(e=>e.empId);
                 Employee.Property(e=>e.empName).IsRequired();
-                Employee.Property(e=>e.departmemt).IsRequired();
+                Employee.Property(e=>e.department).IsRequired();
             });
             modelBuilder.Entity<Laptop>(Laptop=>{
                 Laptop.HasKey(l=>new {l.empId,l.lapHostName});
