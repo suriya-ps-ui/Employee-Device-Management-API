@@ -1,4 +1,5 @@
 using Model;
+using Model.Models;
 namespace Services{
     public interface IDeviceService{
         Task<List<Laptop>> GetLaptopsByEmployeeAsync(string empId);

@@ -18,15 +18,15 @@ namespace Data{
             });
             modelBuilder.Entity<Laptop>(Laptop=>{
                 Laptop.HasKey(l=>new {l.empId,l.lapHostName});
-                Laptop.HasOne(l=>l.Employee).WithMany(e=>e.Laptops).HasForeignKey(l=>l.empId);
+                Laptop.HasOne<Employee>().WithMany(e=>e.Laptops).HasForeignKey(l=>l.empId).IsRequired();
             });
             modelBuilder.Entity<Keyboard>(Keyboard=>{
                 Keyboard.HasKey(k=>k.keyId);
-                Keyboard.HasOne(k=>k.Employee).WithMany(e=>e.Keyboards).HasForeignKey(k=>k.empId);
+                Keyboard.HasOne<Employee>().WithMany(e=>e.Keyboards).HasForeignKey(k=>k.empId).IsRequired();
             });
             modelBuilder.Entity<Mouse>(Mouse=>{
                 Mouse.HasKey(m=>m.mouseId);
-                Mouse.HasOne(m=>m.Employee).WithMany(e=>e.Mouses).HasForeignKey(m=>m.empId);
+                Mouse.HasOne<Employee>().WithMany(e=>e.Mouses).HasForeignKey(m=>m.empId).IsRequired();
             });
             modelBuilder.Entity<User>(User=>{
                 User.HasKey(u =>u.id);

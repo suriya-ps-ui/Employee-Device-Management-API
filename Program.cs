@@ -1,15 +1,64 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Services;
+using Microsoft.OpenApi.Models;
 
-var builder = WebApplication.CreateBuilder(args);
-// Register DbContext with Dependency Injection
-builder.Services.AddDbContext<AssetManagementContext>(options =>
-    options.UseSqlServer(builder.Configuration["ConnectionString:DefaultString"]));
+var builder=WebApplication.CreateBuilder(args);
+
+// Add DbContext
+builder.Services.AddDbContext<AssetManagementContext>(options=>options.UseSqlServer(builder.Configuration["ConnectionString:DefaultString"]));
+
+// Add services
+builder.Services.AddScoped<IEmployeeService,EmployeeService>();
+builder.Services.AddScoped<IDeviceService,DeviceService>();
+builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddControllers();
+// Add JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options=>{
+        options.TokenValidationParameters = new TokenValidationParameters{
+            ValidateIssuer=false,
+            ValidateAudience=false,
+            ValidateLifetime=true,
+            ValidateIssuerSigningKey=true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+builder.Services.AddAuthorization();
+// Add Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c=>{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Asset Management API", Version = "v1" });
+    // Add JWT Authentication to Swagger
+    c.AddSecurityDefinition("Bearer",new OpenApiSecurityScheme{
+        Name="Authorization",
+        Type=SecuritySchemeType.ApiKey,
+        Scheme="Bearer",
+        BearerFormat="JWT",
+        In=ParameterLocation.Header,});
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement{{
+            new OpenApiSecurityScheme{
+                Reference = new OpenApiReference{
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }}
+                ,Array.Empty<string>()}});
+                });
+
 var app = builder.Build();
-// Example middleware or endpoint to test it
-app.MapGet("/", async (AssetManagementContext db) =>
-{
-    var employees = await db.Employees.ToListAsync();
-    return "Hello World!";
-});
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment()){
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>{
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Asset Management API V1");
+        c.RoutePrefix = string.Empty; // Swagger UI at root (e.g., http://localhost:5000/)
+    });
+}
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 app.Run();
