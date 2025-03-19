@@ -5,7 +5,6 @@ namespace Model{
         public required string password{get;set;}
         public required string role{get;set;}
         public string? empId{get;set;}
-        //Relation
         public virtual Employee? Employee{get;set;}
     }
 }

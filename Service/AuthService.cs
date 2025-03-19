@@ -45,5 +45,25 @@ namespace Services{
             assetManagementContext.Users.Add(user);
             await assetManagementContext.SaveChangesAsync();
         }
+        public async Task<List<User>> GetAllUserAsync(){
+            return await assetManagementContext.Users.ToListAsync();
+        }
+        public async Task UpdateUserAsync(string empId,User user){
+            var use=await assetManagementContext.Users.FirstOrDefaultAsync(u=>u.empId==empId);
+            if(use==null){
+                throw new Exception("There is no such user");
+            }
+            use.userName=user.userName;
+            use.password=user.password;
+            await assetManagementContext.SaveChangesAsync();
+        }
+        public async Task DeleteUserAsync(string empId){
+            var user=await assetManagementContext.Users.FirstOrDefaultAsync(u=>u.empId==empId);
+            if(user==null){
+                throw new Exception("There is no such user");
+            }
+            assetManagementContext.Users.Remove(user);
+            await assetManagementContext.SaveChangesAsync();
+        }
     }
 }
