@@ -33,7 +33,7 @@ namespace Controllers{
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("Get")]
+        [HttpGet("Users")]
         [Authorize(Roles="Admin")]
         public async Task<IActionResult> GetAllUsers(){
             var users=await authService.GetAllUserAsync();
