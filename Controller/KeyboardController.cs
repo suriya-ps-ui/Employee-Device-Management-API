@@ -12,7 +12,7 @@ namespace Controllers{
             this.deviceService=deviceService;
         }
 
-                [HttpGet("Employees/{empId}/Keyboards")]
+        [HttpGet("Employees/{empId}/Keyboards")]
         [Authorize]
         public async Task<IActionResult> GetKeyboards(string empId){
             var keyboards=await deviceService.GetKeyboardsByEmployeeAsync(empId);
