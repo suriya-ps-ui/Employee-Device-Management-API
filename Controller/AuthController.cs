@@ -41,7 +41,12 @@ namespace Controllers{
         }
         [HttpPut("Users/{empId}")]
         [Authorize(Roles="Admin")]
-        public async Task<IActionResult> UpdateUser(string empId,[FromBody] User user){
+        public async Task<IActionResult> UpdateUser(string empId,[FromBody] RegisterRequest registerRequest){
+            var user=new User{
+                userName=registerRequest.username,
+                password=registerRequest.Password,
+                role=registerRequest.role
+            };
             await authService.UpdateUserAsync(empId,user);
             return NoContent();
         }
